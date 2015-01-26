@@ -1,5 +1,5 @@
 class HerosController < ApplicationController
-  before_action :set_hero, only: [:show, :edit, :update, :destroy]
+  before_filter :set_hero, only: [:show, :edit, :update, :destroy]
 
   # GET /heros
   # GET /heros.json
