@@ -2,6 +2,7 @@ HeroRequests::Application.routes.draw do
   resources :heros
 
   get '/heroes/:name' => 'heros#create'
+  get '/herolist' => 'heros#herolist'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

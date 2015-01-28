@@ -7,6 +7,16 @@ class HerosController < ApplicationController
     @heros = Hero.all
   end
 
+  def herolist
+    @heros = Hero.all
+
+    puts '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>'
+    @list = @heros.map{ |h| h.name } * ","
+    puts @heros.count
+
+    render :layout => "another"
+  end
+
   # GET /heros/1
   # GET /heros/1.json
   def show
