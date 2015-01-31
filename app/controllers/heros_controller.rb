@@ -4,13 +4,18 @@ class HerosController < ApplicationController
   # GET /heros
   # GET /heros.json
   def index
-    @heros = Hero.all
+    if (params[:stream].nil?)
+      @heros = Hero.all
+    else
+      @stream = stream(params[:stream])
+      @heros = Hero.where(stream_id: @stream.id)
+    end
   end
 
   def herolist
-    @heros = Hero.all
+    @stream = stream(params[:stream])
+    @heros = Hero.where(stream_id: @stream.id)
 
-    puts '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>'
     @list = @heros.map{ |h| h.name } * ","
     puts @heros.count
 
@@ -34,9 +39,12 @@ class HerosController < ApplicationController
 
   # POST /heros
   # POST /heros.json
-    def create
+  def create
+    @stream = stream(params[:stream])
+
     @hero = Hero.new
-    @hero.name = params[:name]
+    @hero.name = params[:hero]
+    @hero.stream_id = @stream.id
 
     respond_to do |format|
       if @hero.save
@@ -82,5 +90,13 @@ class HerosController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def hero_params
       params.require(:hero).permit(:name)
+    end
+
+    def all_streams
+      return Stream.all.sort!{|a,b| a.name.downcase <=> b.name.downcase }
+    end
+
+    def stream(name)
+      return Stream.find(:first, :conditions => ["lower(name) = ?", name.downcase])
     end
 end
