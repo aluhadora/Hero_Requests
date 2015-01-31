@@ -16,10 +16,12 @@ class HerosController < ApplicationController
     @stream = stream(params[:stream])
     @heros = Hero.where(stream_id: @stream.id)
 
+    puts "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
+    puts @heros.count
     if (@heros.count == 0)
-      @list = @heros.map{ |h| h.name } * ", "
+      @list = 'There is nothing in the queue.  Add a hero like !requesthero Zeratul.'
     else
-      @lsit = 'There is nothing in the queue.  Add a hero like !requesthero Zeratul.'
+      @list = @heros.map{ |h| h.name } * ", "      
     end
 
     render :layout => "plaintext"
