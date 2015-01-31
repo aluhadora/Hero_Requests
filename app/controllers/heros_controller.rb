@@ -16,16 +16,27 @@ class HerosController < ApplicationController
     @stream = stream(params[:stream])
     @heros = Hero.where(stream_id: @stream.id)
 
-    @list = @heros.map{ |h| h.name } * ","
+    @list = @heros.map{ |h| h.name } * ", "
     puts @heros.count
 
-    render :layout => "another"
+    render :layout => "plaintext"
+  end
+
+  def clear
+    @stream = stream(params[:stream])
+    requests = Hero.where(stream_id: @stream.id)
+
+    requests.each do |r|
+      r.destroy
+    end
+
+    render :layout => "plaintext"
   end
 
   # GET /heros/1
   # GET /heros/1.json
   def show
-    render :layout => "another"
+    render :layout => "plaintext"
   end
 
   # GET /heros/new
